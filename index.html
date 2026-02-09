@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Valentine's Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #fff0f3; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; font-family: 'Poppins', sans-serif; overflow: hidden; position: relative; }
+        .container { text-align: center; padding: 30px; width: 85%; max-width: 380px; background: white; border-radius: 30px; box-shadow: 0 10px 30px rgba(255, 75, 110, 0.2); z-index: 10; transition: 0.3s; }
+        .sticker { font-size: 50px; display: block; margin-bottom: 10px; }
+        h1 { color: #c9184a; font-size: 1.3rem; margin-bottom: 20px; }
+        .strike-zone { color: #ff4d6d; font-weight: bold; font-size: 14px; margin-bottom: 10px; }
+        .options { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+        .btn { border: none; padding: 14px; border-radius: 15px; cursor: pointer; font-weight: 600; transition: 0.3s; font-size: 14px; background: #ffb3c1; color: #590d22; }
+        .btn:hover:not(:disabled) { background: #ff758f; color: white; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .start-box { background: #ff4d6d; color: white; padding: 15px 30px; border-radius: 15px; cursor: pointer; display: inline-block; margin-top: 20px; box-shadow: 0 4px 10px rgba(255, 77, 109, 0.3); }
+        .footer-box { background: #ff4d6d; color: white; padding: 5px 15px; border-radius: 10px; font-size: 12px; display: inline-block; margin-top: 25px; font-weight: bold; }
+        .hint-text { font-size: 11px; color: #ad1457; cursor: pointer; text-decoration: underline; margin-top: 12px; display: block; opacity: 0.8; }
+        .hidden { display: none; }
+        .feedback { margin-top: 15px; font-weight: bold; min-height: 24px; }
+        #angry-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(201, 24, 74, 0.95); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; display: none; }
+        .heart { position: absolute; top: -10%; color: #ff4081; font-size: 25px; user-select: none; z-index: 1; animation: fall linear forwards; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+        .big-yes { font-size: 22px !important; padding: 20px !important; background: #c9184a !important; color: white !important; flex: 2; }
+        .small-yes { font-size: 12px !important; padding: 10px !important; flex: 1; }
+    </style>
+</head>
+<body>
+    <div id="angry-overlay">
+        <span style="font-size: 100px;">😡</span>
+        <h1 style="padding: 20px;">TOO MANY WRONG ANSWERS!</h1>
+        <p>You better start remembering things...</p>
+    </div>
+    <div class="container" id="quiz-container">
+        <div class="strike-zone" id="strike-display">Strikes: 0 / 3</div>
+        <div id="slide-0">
+            <span class="sticker">❤️</span>
+            <h1>Special Valentine's Quiz Just For You ❤️</h1>
+            <p>Answer a few questions to unlock something special...</p>
+            <div class="start-box" onclick="nextSlide(1)">❤️ START</div>
+            <br><div class="footer-box">made with love</div>
+        </div>
+        <div id="slide-1" class="hidden">
+            <h1>What colour was I wearing when you first saw me?</h1>
+            <div class="options">
+                <button class="btn" id="correct-1" onclick="handleAnswer(1, true)">Black and Brown</button>
+                <button class="btn" onclick="handleAnswer(1, false)">Blue and White</button>
+                <button class="btn" onclick="handleAnswer(1, false)">Red and Black</button>
+            </div>
+            <span class="hint-text" onclick="triggerTrap()">Need a hint?</span>
+            <div id="feedback-1" class="feedback"></div>
+        </div>
+        <div id="slide-2" class="hidden">
+            <h1>What's our wedding song? 🎶</h1>
+            <div class="options">
+                <button class="btn" onclick="handleAnswer(2, false)">Perfect - Ed Sheeran</button>
+                <button class="btn" onclick="handleAnswer(2, true)">Can't help falling in love with you</button>
+                <button class="btn" onclick="handleAnswer(2, false)">All of Me - John Legend</button>
+            </div>
+            <div id="feedback-2" class="feedback"></div>
+        </div>
+        <div id="slide-3" class="hidden">
+            <h1>How can you make sure I feel loved by you? ❤️</h1>
+            <div class="options">
+                <button class="btn" onclick="handleAnswer(3, false)">Buying me expensive gifts</button>
+                <button class="btn" onclick="handleAnswer(3, true)">Communicating and expressing feelings openly</button>
+                <button class="btn" onclick="handleAnswer(3, false)">Just sending emojis</button>
+            </div>
+            <div id="feedback-3" class="feedback"></div>
+        </div>
+        <div id="slide-4" class="hidden">
+            <span class="sticker">💍</span>
+            <h1>Are you ready to marry me on 26th March?</h1>
+            <div class="options" style="flex-direction: row; align-items: center; gap: 10px;">
+                <button class="btn big-yes" onclick="celebrate()">YES!</button>
+                <button class="btn small-yes" onclick="celebrate()">Yes</button>
+            </div>
+        </div>
+        <div id="slide-5" class="hidden">
+            <span class="sticker">👨‍❤️‍💋‍👨</span>
+            <h1>I knew it! ❤️</h1>
+            <p>You unlocked my heart forever.<br>See you on the 14th...<br>and our big day on 26th March! 💍</p>
+            <div class="footer-box">made with love</div>
+        </div>
+    </div>
+    <script>
+        let strikes = 0;
+        function nextSlide(num) {
+            for(let i=0; i<=5; i++) {
+                const s = document.getElementById('slide-'+i);
+                if(s) s.classList.add('hidden');
+            }
+            document.getElementById('slide-'+num).classList.remove('hidden');
+        }
+        function addStrike() {
+            strikes++;
+            document.getElementById('strike-display').innerHTML = "Strikes: " + strikes + " / 3";
+            if (strikes >= 3) {
+                const overlay = document.getElementById('angry-overlay');
+                overlay.style.display = 'flex';
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    strikes = 0;
+                    document.getElementById('strike-display').innerHTML = "Strikes: 0 / 3";
+                }, 3000);
+            }
+        }
+        function triggerTrap() {
+            alert("Hint: Think of a Cheetah theme... 🐆");
+            addStrike();
+            const fb = document.getElementById('feedback-1');
+            fb.innerHTML = "😡 WHY DID YOU NEED A HINT?! Strike added!";
+            fb.style.color = "#c9184a";
+            document.getElementById('correct-1').disabled = true;
+            setTimeout(() => { document.getElementById('correct-1').disabled = false; }, 2500);
+        }
+        function handleAnswer(qNum, isCorrect) {
+            const feedback = document.getElementById('feedback-' + qNum);
+            if (isCorrect) {
+                feedback.innerHTML = "That's right! ❤️";
+                feedback.style.color = "#2d6a4f";
+                setTimeout(() => nextSlide(qNum + 1), 1500);
+            } else {
+                addStrike();
+                feedback.innerHTML = "😡 WRONG! Strike added!";
+                feedback.style.color = "#c9184a";
+            }
+        }
+        function celebrate() {
+            document.getElementById('strike-display').style.display = 'none';
+            nextSlide(5);
+            setInterval(createHeart, 300);
+        }
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "❤️";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 2 + 3 + "s";
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+    </script>
+</body>
+</html>
