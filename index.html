@@ -3,38 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Valentine's Challenge</title>
+    <title>A Special Surprise</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body { background-color: #fff0f3; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; font-family: 'Poppins', sans-serif; overflow: hidden; position: relative; }
-        .container { text-align: center; padding: 30px; width: 85%; max-width: 380px; background: white; border-radius: 30px; box-shadow: 0 10px 30px rgba(255, 75, 110, 0.2); z-index: 10; transition: 0.3s; border: 4px solid transparent; }
+        .container { text-align: center; padding: 25px; width: 85%; max-width: 380px; background: white; border-radius: 30px; box-shadow: 0 10px 30px rgba(255, 75, 110, 0.2); z-index: 10; transition: 0.3s; border: 4px solid transparent; }
         .sticker { font-size: 50px; display: block; margin-bottom: 10px; }
         h1 { color: #c9184a; font-size: 1.2rem; margin-bottom: 20px; line-height: 1.4; }
         .strike-zone { color: #ff4d6d; font-weight: bold; font-size: 14px; margin-bottom: 10px; background: #fff0f3; padding: 5px; border-radius: 10px; }
         .options { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
         .btn { border: none; padding: 14px; border-radius: 15px; cursor: pointer; font-weight: 600; transition: 0.3s; font-size: 13px; background: #ffb3c1; color: #590d22; }
         .btn:hover:not(:disabled) { background: #ff758f; color: white; transform: scale(1.02); }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .next-step-btn { background: #c9184a !important; color: white !important; margin-top: 15px; display: none; width: 100%; border: 2px dashed white; }
         .start-box { background: #ff4d6d; color: white; padding: 15px 30px; border-radius: 15px; cursor: pointer; display: inline-block; margin-top: 20px; font-weight: bold; }
-        .footer-box { background: #ff4d6d; color: white; padding: 5px 15px; border-radius: 10px; font-size: 11px; display: inline-block; margin-top: 25px; }
+        .footer-box { background: #ff4d6d; color: white; padding: 5px 15px; border-radius: 10px; font-size: 11px; display: inline-block; margin-top: 15px; }
         .hint-text { font-size: 11px; color: #ad1457; cursor: pointer; text-decoration: underline; margin-top: 15px; display: block; }
         .hidden { display: none; }
-        .feedback { margin-top: 15px; font-weight: bold; font-size: 13px; min-height: 60px; line-height: 1.5; }
+        .feedback { margin-top: 15px; font-weight: bold; font-size: 13px; min-height: 50px; color: #2d6a4f; }
         
-        .letter { background: #fffaf0; padding: 25px; border-radius: 10px; box-shadow: inset 0 0 50px rgba(0,0,0,0.1); border-left: 5px solid #ff4d6d; text-align: left; font-family: 'Dancing Script', cursive; color: #590d22; font-size: 1.4rem; }
+        .letter { background: #fffaf0; padding: 20px; border-radius: 10px; box-shadow: inset 0 0 50px rgba(0,0,0,0.1); border-left: 5px solid #ff4d6d; text-align: left; font-family: 'Dancing Script', cursive; color: #590d22; font-size: 1.35rem; line-height: 1.3; margin-bottom: 15px; }
+        .contract-btn { background: #590d22 !important; color: white !important; font-family: 'Poppins', sans-serif; font-size: 11px !important; padding: 10px !important; width: 100%; margin-top: 10px; }
         
         #angry-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(201, 24, 74, 0.98); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; display: none; text-align: center; }
         .heart { position: absolute; top: -10%; color: #ff4081; font-size: 25px; user-select: none; z-index: 1; animation: fall linear forwards; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
-        .big-yes { font-size: 22px !important; padding: 20px !important; background: #c9184a !important; color: white !important; flex: 2; border: 2px solid #590d22; }
+        .big-yes { font-size: 20px !important; padding: 20px !important; background: #c9184a !important; color: white !important; }
     </style>
 </head>
 <body>
 
     <div id="angry-overlay">
         <span style="font-size: 80px;">💀</span>
-        <h1 style="font-size: 2rem;">WOW.</h1>
-        <p style="padding: 0 20px;">I'm going to need a very long apology to forget this mistake. 🙄</p>
+        <h1>STRIKE 3.</h1>
+        <p>Go rethink your choices while I look for a new groom. 🙄</p>
     </div>
 
     <div class="container" id="quiz-container">
@@ -44,60 +45,65 @@
             <span class="sticker">❤️</span>
             <h1 style="margin-bottom: 0;">Special Valentine's Day Quiz</h1>
             <h1 style="margin-top: 5px;">Just for you ❤️</h1>
-            <p style="font-size: 14px; color: #590d22;">Answer a few questions to unlock something special...</p>
+            <p style="font-size: 13px; color: #590d22;">Answer a few questions to unlock something special...</p>
             <div class="start-box" onclick="nextSlide(1)">❤️ START</div>
             <br><div class="footer-box">made with love</div>
         </div>
 
         <div id="slide-1" class="hidden">
             <h1>What colour was I wearing when you first saw me?</h1>
-            <div class="options">
-                <button class="btn" id="correct-1" onclick="handleAnswer(1, true, 'Correct! I looked stunning, obviously. You better remember that glow forever! 💅')">Black and Brown</button>
+            <div id="options-1" class="options">
+                <button class="btn" id="correct-1" onclick="handleAnswer(1, true, 'Correct! I looked stunning, obviously. You better remember that glow forever! 💅', 'Keep going, my future husband! ➡️')">Black and Brown</button>
                 <button class="btn" onclick="handleAnswer(1, false, 'Blue and White? Do you even have eyes? 👁️👄👁️')">Blue and White</button>
                 <button class="btn" onclick="handleAnswer(1, false, 'Red and Black? Wrong girl, buddy. 🚩')">Red and Black</button>
             </div>
-            <span class="hint-text" onclick="triggerTrap()">I need a hint because I have a bad memory 🐆</span>
+            <span class="hint-text" id="hint-1" onclick="triggerTrap()">I need a hint... 🐆</span>
             <div id="feedback-1" class="feedback"></div>
+            <button class="btn next-step-btn" id="next-btn-1" onclick="nextSlide(2)"></button>
         </div>
 
         <div id="slide-2" class="hidden">
             <h1>What's our wedding song? 🎶</h1>
-            <div class="options">
+            <div id="options-2" class="options">
                 <button class="btn" onclick="handleAnswer(2, false, 'Basic. Try again. 🙄')">Perfect - Ed Sheeran</button>
-                <button class="btn" onclick="handleAnswer(2, true, 'YES! The King Elvis would be proud. I expect a perfect dance to this! 🕺✨')">Can't Help Falling in Love - Elvis Presley</button>
+                <button class="btn" onclick="handleAnswer(2, true, 'YES! I expect a perfect dance to this at the Nikkah! 🕺✨', 'Click for the next trap... I mean question 😈')">Can't Help Falling in Love - Elvis Presley</button>
                 <button class="btn" onclick="handleAnswer(2, false, 'Great song, but not OUR song. Focus! 🧠')">All of Me - John Legend</button>
             </div>
             <div id="feedback-2" class="feedback"></div>
+            <button class="btn next-step-btn" id="next-btn-2" onclick="nextSlide(3)"></button>
         </div>
 
         <div id="slide-3" class="hidden">
-            <h1>What is your absolute favorite thing about me? 🥰</h1>
-            <div class="options">
-                <button class="btn" onclick="handleAnswer(3, true, 'Yes! This is exactly what I expect. I’ll keep caring for you, but you better keep appreciating it! ❤️')">My personality & how I care for you</button>
-                <button class="btn" onclick="handleAnswer(3, true, 'I knew you were obsessed with my face! 😉 Beauty fades, but luckily for you, I’m iconic forever.')">How beautiful I am (Inside & Out)</button>
-                <button class="btn" onclick="handleAnswer(3, true, 'The only correct answer! I am a handful, but I am YOUR handful. Don’t you forget it! 💅')">Everything, I can't choose!</button>
+            <h1>What is your favorite thing about me? 🥰</h1>
+            <div id="options-3" class="options">
+                <button class="btn" onclick="handleAnswer(3, true, 'Yes! I’ll keep caring for you, but you better keep appreciating it! ❤️', 'One more before you win me... 💍')">My personality & how I care for you</button>
+                <button class="btn" onclick="handleAnswer(3, true, 'I knew you were obsessed with my face! 😉 I’m iconic forever.', 'One more before you win me... 💍')">How beautiful I am (Inside & Out)</button>
+                <button class="btn" onclick="handleAnswer(3, true, 'Correct! I am a handful, but I am YOUR handful. 💅', 'One more before you win me... 💍')">Everything, I can't choose!</button>
             </div>
             <div id="feedback-3" class="feedback"></div>
+            <button class="btn next-step-btn" id="next-btn-3" onclick="nextSlide(4)"></button>
         </div>
 
         <div id="slide-4" class="hidden">
             <span class="sticker">💍</span>
-            <h1>Final Question:<br>Are you ready to marry me on 26th March?</h1>
-            <div class="options">
-                <button class="btn big-yes" onclick="celebrate()">YES, ABSOLUTELY! ❤️</button>
-                <button class="btn" onclick="handleAnswer(4, false, 'Wrong button. There is only one right answer here. 🔪')">I need to think...</button>
+            <h1>Are you ready to marry me on 26th March?</h1>
+            <div id="options-4" class="options">
+                <button class="btn big-yes" onclick="celebrate()">YES, Qubool Hai! ❤️</button>
+                <button class="btn" onclick="handleAnswer(4, false, 'There is only one right answer here. 🔪')">I need to think...</button>
             </div>
             <div id="feedback-4" class="feedback"></div>
         </div>
 
         <div id="slide-5" class="hidden">
             <div class="letter">
-                My Dearest,<br><br>
+                My Dearest M,<br><br>
                 You passed! ❤️<br><br>
-                I can't wait to be yours forever. On <b>26th March</b>, when we finally say our vows, you owe me <b>loads and loads of hugs and kisses</b> for making me put up with your memory during this quiz! 😘<br><br>
-                I love you!
+                I can't wait to be yours forever. On <b>26th March</b>, when we finally say <b>Qubool hai</b>, you owe me <b>loads and loads of hugs and kisses</b> for making me do long distance and lose my mind! 😘<br><br>
+                I L-word you!<br><br>
+                See you at the nikkah ceremony! 💍
             </div>
-            <div class="footer-box">See you at the altar! 💍</div>
+            <button class="btn contract-btn" onclick="finalAlert()">I accept the terms and conditions of this marriage ✍️</button>
+            <div class="footer-box">forever and always</div>
         </div>
     </div>
 
@@ -115,10 +121,9 @@
             const emoji = strikeEmojis[strikes] || "💀";
             document.getElementById('strike-display').innerHTML = "Patience Level: " + emoji + " " + strikes + " Strikes";
             if (strikes >= 3) {
-                const overlay = document.getElementById('angry-overlay');
-                overlay.style.display = 'flex';
+                document.getElementById('angry-overlay').style.display = 'flex';
                 setTimeout(() => {
-                    overlay.style.display = 'none';
+                    document.getElementById('angry-overlay').style.display = 'none';
                     strikes = 0;
                     document.getElementById('strike-display').innerHTML = "Patience Level: 😇 0 Strikes";
                 }, 4000);
@@ -126,22 +131,22 @@
         }
 
         function triggerTrap() {
-            alert("Hint: Think of a Cheetah theme... 🐆 (Strike added because you should KNOW this!)");
+            alert("Hint: Think of a Cheetah theme... 🐆 (Strike added!)");
             addStrike();
-            const fb = document.getElementById('feedback-1');
-            fb.innerHTML = "😡 STRIKE ADDED! You shouldn't need a hint for the first time we met!";
-            fb.style.color = "#c9184a";
-            document.getElementById('correct-1').disabled = true;
-            setTimeout(() => { document.getElementById('correct-1').disabled = false; }, 2500);
         }
 
-        function handleAnswer(qNum, isCorrect, msg) {
+        function handleAnswer(qNum, isCorrect, msg, btnMsg) {
             const feedback = document.getElementById('feedback-' + qNum);
             feedback.innerHTML = msg;
             if (isCorrect) {
                 feedback.style.color = "#2d6a4f";
-                let delay = (qNum === 3) ? 4000 : 2000;
-                setTimeout(() => nextSlide(qNum + 1), delay);
+                const nextBtn = document.getElementById('next-btn-' + qNum);
+                if (nextBtn) {
+                    nextBtn.innerHTML = btnMsg;
+                    nextBtn.style.display = 'block';
+                    document.getElementById('options-' + qNum).style.display = 'none';
+                    if(document.getElementById('hint-'+qNum)) document.getElementById('hint-'+qNum).style.display = 'none';
+                }
             } else {
                 addStrike();
                 feedback.style.color = "#c9184a";
@@ -152,6 +157,10 @@
             document.getElementById('strike-display').style.display = 'none';
             nextSlide(5);
             setInterval(createHeart, 300);
+        }
+
+        function finalAlert() {
+            alert("Signed and Sealed! 💍 You better have those hugs ready on March 26th! I love you!");
         }
 
         function createHeart() {
